@@ -1,0 +1,48 @@
+'Excel - UpdateComments
+'
+'Update cell comments based on cell contents
+'
+'This function update cell comments based on the value of the cell
+'In this case, for example, if cell contains the text "MSPN" then the comment will contains "MSPN - Mensagem pendente" and so on
+'This update is done in column P from row 2 to the last row that contains data
+
+Private Sub UpdateComments()
+    Dim C As Range, cell As Range
+    Dim lRow As Long
+    
+    lRow = Cells(Rows.Count, 1).End(xlUp).Row
+    Set C = Range("P2:P" & lRow)
+    
+    For Each cell In C
+        cell.ClearComments
+        If Len(cell.Value) > 0 Then
+            cell.AddComment
+            cell.Comment.Shape.TextFrame.AutoSize = True
+            If InStr(1, cell.Value, "MSPN") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MSPN - Mensagem pendente" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "MSEN") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MSEN - Mensagem encerrada" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "MSPR") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MSPR - Mensagem em processamento" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "ORDA") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "ORDA - Ordem atribuída" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "MENE") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MENE - Mensagem causa externa" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "TMEE") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "TMEE - Todas as acções concluídas" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "MEAB") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MEAB - Existem medidas pendentes" & vbNewLine
+            End If
+            If InStr(1, cell.Value, "MSIM") > 0 Then
+                cell.Comment.Text cell.Comment.Text & "MSIM - Mensagem impressa" & vbNewLine
+            End If
+            cell.Comment.Shape.TextFrame.AutoSize = True
+        End If
+    Next cell
+End Sub
